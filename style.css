@@ -1,0 +1,57 @@
+body {
+  font-family: Arial;
+}
+
+.header {
+  text-align: center;
+}
+
+#column1 {
+  width: 60%;
+}
+
+#column2 {
+  width: 40%;
+}
+
+.flex-container {
+  
+  display: flex;
+  flex-direction: row;
+  
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.bar {
+  fill: blueviolet;
+}
+
+.point {
+  fill: blueviolet;
+  stroke: black;
+  stroke-width: 0px;
+}
+
+.yes_border {
+  fill: blueviolet;
+  stroke: black;
+  stroke-width: 5px;
+}
+
+.display_text {
+  display: none;
+}
+
+.display_text_not {
+  display: block;
+}
+
+button {
+    margin: 20px;
+    width: 200px;
+}
