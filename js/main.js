@@ -29,7 +29,7 @@ const SCATTER_FRAME_2 = d3.select("#scatter-plot-2")
 // function to build bar plot 
 function build_bar_plot() {
   // reading in data 
-  d3.csv("iris_bar.csv").then((data) => {
+  d3.csv("data/iris_bar.csv").then((data) => {
 
     const MAX_Y = d3.max(data, (d) => { return parseInt(d.Count); });
 
@@ -54,9 +54,6 @@ function build_bar_plot() {
     .attr("width", X_SCALE.bandwidth())
     .attr("height", (d) => { return VIS_HEIGHT - Y_SCALE(d.Count); })
     .attr("class", "bar")
-    .on("mouseenter", bar_hover_over)
-    .on("mousemove", bar_move)
-    .on("mouseleave", bar_hover_out);
 
     // add X axis 
     BAR_FRAME.append("g") 
@@ -90,7 +87,7 @@ function build_bar_plot() {
 
 function build_scatter_plot_1() {
   // reading in data 
-  d3.csv("iris.csv").then((data) => {
+  d3.csv("data/iris.csv").then((data) => {
 
     // find max values 
     const MAX_X = d3.max(data, (d) => { return parseInt(d.Petal_Length); });
@@ -98,15 +95,15 @@ function build_scatter_plot_1() {
     
     // define scale functions that maps our data values to pixel values (range) 
     const X_SCALE = d3.scaleLinear() 
-    .domain([0, 10]) 
+    .domain([0, MAX_X*1.2]) 
     .range([0, VIS_WIDTH]);
 
     const Y_SCALE = d3.scaleLinear() 
-    .domain([0, 10]) 
+    .domain([0, MAX_Y*1.2]) 
     .range([VIS_HEIGHT,0]); 
 
     // use the X_SCALE and Y_SCALE to plot the points 
-    SCATTER_FRAME.selectAll("dot")  
+    SCATTER_FRAME_1.selectAll("dot")  
     .data(data)
     .enter()       
     .append("circle")  
@@ -114,18 +111,18 @@ function build_scatter_plot_1() {
     .attr("cy", (d) => { return (Y_SCALE(d.Sepal_Length) + MARGINS.top); })
     .attr("xchord", (d) => { return d.Petal_Length; })
     .attr("ychord", (d) => { return d.Sepal_Length; })
-    .attr("r", 10)
+    .attr("r", 5)
     .attr("class", "point");
 
     // adding X axis to the visualization 
-    SCATTER_FRAME.append("g") 
+    SCATTER_FRAME_1.append("g") 
     .attr("transform", "translate(" + MARGINS.left + 
       "," + (VIS_HEIGHT + MARGINS.top) + ")") 
     .call(d3.axisBottom(X_SCALE).ticks(11)) 
     .attr("font-size", '20px'); 
 
     // adding Y axis to the visualization 
-    SCATTER_FRAME.append("g") 
+    SCATTER_FRAME_1.append("g") 
     .attr("transform", "translate(" + MARGINS.left + 
       "," + (MARGINS.top) + ")") 
     .call(d3.axisLeft(Y_SCALE).ticks(11)) 
@@ -140,7 +137,7 @@ function build_scatter_plot_1() {
     }
 
     // adding event listeners for all functionality 
-    SCATTER_FRAME.selectAll(".point")
+    SCATTER_FRAME_1.selectAll(".point")
     .on("mouseover", hover_over)
     .on("mouseleave", hover_out)
 
@@ -150,7 +147,7 @@ function build_scatter_plot_1() {
 
 function build_scatter_plot_2() {
   // reading in data 
-  d3.csv("iris.csv").then((data) => {
+  d3.csv("data/iris.csv").then((data) => {
 
     // find max values 
     const MAX_X = d3.max(data, (d) => { return parseInt(d.Petal_Width); });
@@ -158,15 +155,15 @@ function build_scatter_plot_2() {
     
     // define scale functions that maps our data values to pixel values (range) 
     const X_SCALE = d3.scaleLinear() 
-    .domain([0, 10]) 
+    .domain([0, MAX_X*1.2]) 
     .range([0, VIS_WIDTH]);
 
     const Y_SCALE = d3.scaleLinear() 
-    .domain([0, 10]) 
+    .domain([0, MAX_Y*1.2]) 
     .range([VIS_HEIGHT,0]); 
 
     // use the X_SCALE and Y_SCALE to plot the points 
-    SCATTER_FRAME.selectAll("dot")  
+    SCATTER_FRAME_2.selectAll("dot")  
     .data(data)
     .enter()       
     .append("circle")  
@@ -174,18 +171,18 @@ function build_scatter_plot_2() {
     .attr("cy", (d) => { return (Y_SCALE(d.Sepal_Width) + MARGINS.top); })
     .attr("xchord", (d) => { return d.Petal_Width; })
     .attr("ychord", (d) => { return d.Sepal_Width; })
-    .attr("r", 10)
+    .attr("r", 5)
     .attr("class", "point");
 
     // adding X axis to the visualization 
-    SCATTER_FRAME.append("g") 
+    SCATTER_FRAME_2.append("g") 
     .attr("transform", "translate(" + MARGINS.left + 
       "," + (VIS_HEIGHT + MARGINS.top) + ")") 
     .call(d3.axisBottom(X_SCALE).ticks(11)) 
     .attr("font-size", '20px'); 
 
     // adding Y axis to the visualization 
-    SCATTER_FRAME.append("g") 
+    SCATTER_FRAME_2.append("g") 
     .attr("transform", "translate(" + MARGINS.left + 
       "," + (MARGINS.top) + ")") 
     .call(d3.axisLeft(Y_SCALE).ticks(11)) 
@@ -200,7 +197,7 @@ function build_scatter_plot_2() {
     }
 
     // adding event listeners for all functionality 
-    SCATTER_FRAME.selectAll(".point")
+    SCATTER_FRAME_2.selectAll(".point")
     .on("mouseover", hover_over)
     .on("mouseleave", hover_out)
 
