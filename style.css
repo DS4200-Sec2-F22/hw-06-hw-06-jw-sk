@@ -7,11 +7,14 @@ body {
 }
 
 #column1 {
-  width: 60%;
+  width: 33%;
 }
 
 #column2 {
-  width: 40%;
+  width: 33%;
+}
+#column3 {
+  width: 33%;
 }
 
 .flex-container {
