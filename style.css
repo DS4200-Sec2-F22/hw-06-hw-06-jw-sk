@@ -43,9 +43,9 @@ body {
 }
 
 .selected {
-  opacity: 1 !important;
+  opacity: 100% !important;
   stroke: orange;
-  stroke-width: 1px;
+  stroke-width: 2px;
 }
 
 .setosa {
