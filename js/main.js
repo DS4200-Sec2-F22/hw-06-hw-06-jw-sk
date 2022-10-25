@@ -26,11 +26,6 @@ const SCATTER_FRAME_2 = d3.select("#scatter-plot-2")
 .attr("width", FRAME_WIDTH)
 .attr("class", "frame")
 
-let brush = d3.brush()                                   // Add the brush feature using the d3.brush function
-            .extent( [[MARGINS.left, MARGINS.top], 
-            [FRAME_WIDTH,(FRAME_HEIGHT - MARGINS.bottom)]])  // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-            .on("start brush", updateChart);
-
 
 // function to build bar plot 
 function build_bar_plot() {
@@ -142,8 +137,6 @@ function build_scatter_plot_2() {
   // reading in data 
   d3.csv("data/iris.csv").then((data) => {
 
-    SCATTER_FRAME_2.call(brush)
-
     // find max values 
     const MAX_X = d3.max(data, (d) => { return parseInt(d.Petal_Width); });
     const MAX_Y = d3.max(data, (d) => { return parseInt(d.Sepal_Width); });
@@ -183,12 +176,15 @@ function build_scatter_plot_2() {
     .call(d3.axisLeft(Y_SCALE).ticks(11)) 
     .attr("font-size", '20px'); 
 
-    
-  });
-  
-};
 
-function updateChart(event) {
+    let brush = d3.brush()                                   // Add the brush feature using the d3.brush function
+            .extent( [[MARGINS.left, MARGINS.top], 
+            [FRAME_WIDTH,(FRAME_HEIGHT - MARGINS.bottom)]])  // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+            .on("start brush end", updateChart);
+            
+    SCATTER_FRAME_2.call(brush)
+
+    function updateChart(event) {
      extent = event.selection;
      let xx = SCATTER_FRAME_2.selectAll("dot");   
      xx.classed("selected", (d) => { return isBrushed(extent, (X_SCALE(d.Petal_Width) + MARGINS.left), (Y_SCALE(d.Sepal_Width) + MARGINS.top))})
@@ -201,6 +197,12 @@ function isBrushed(brush_coords, cx, cy) {
         const y1 = brush_coords[1][1];
       return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
     };
+    
+  });
+  
+};
+
+
 
 
 build_bar_plot();
