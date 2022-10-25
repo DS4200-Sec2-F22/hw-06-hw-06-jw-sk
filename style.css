@@ -34,24 +34,33 @@ body {
   fill: blueviolet;
 }
 
-.point {
-  fill: blueviolet;
-  stroke: black;
-  stroke-width: 0px;
-}
-
-.yes_border {
-  fill: blueviolet;
-  stroke: black;
-  stroke-width: 5px;
-}
-
 .display_text {
   display: none;
 }
 
 .display_text_not {
   display: block;
+}
+
+.selected {
+  opacity: 1 !important;
+  stroke: orange;
+  stroke-width: 1px;
+}
+
+.setosa {
+  fill: seagreen;
+  opacity: 30%;
+}
+
+.versicolor {
+  fill: coral;
+  opacity: 30%;
+}
+
+.virginica {
+  fill: mediumblue;
+  opacity: 30%;
 }
 
 button {
