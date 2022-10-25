@@ -175,15 +175,15 @@ function build_scatter_plot_2() {
     .call(d3.axisLeft(Y_SCALE).ticks(11)) 
     .attr("font-size", '20px'); 
 
-    SCATTER_FRAME_2.call(d3.brush()                                   // Add the brush feature using the d3.brush function
+    const brush = d3.brush()                                   // Add the brush feature using the d3.brush function
       .extent( [[MARGINS.left,MARGINS.top], 
                [FRAME_WIDTH,(FRAME_HEIGHT - MARGINS.bottom)]])         // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-               .on("start brush", updateChart()));
+               .on("start brush end", updateChart);
 
-  });
-  function updateChart() {
-      eextent = d3.event.selection; 
-      points_2.classed("selected", (d) => { return isBrushed(extent, (X_SCALE(d.Petal_Width) + MARGINS.left), (Y_SCALE(d.Sepal_Width) + MARGINS.top)); })
+    SCATTER_FRAME_2.call(brush);
+
+function updateChart({selection}) {
+      points_2.classed("selected", (d) => { return isBrushed(selection, (X_SCALE(d.Petal_Width) + MARGINS.left), (Y_SCALE(d.Sepal_Width) + MARGINS.top)); })
     };
 
   function isBrushed(brush_coords, cx, cy) {
@@ -193,7 +193,7 @@ function build_scatter_plot_2() {
            y1 = brush_coords[1][1];
       return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
     };
-
+  });
 };
 
 
