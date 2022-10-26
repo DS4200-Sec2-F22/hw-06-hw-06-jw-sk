@@ -2,6 +2,10 @@ body {
   font-family: Arial;
 }
 
+h2 {
+  text-align: center;
+}
+
 .header {
   text-align: center;
 }

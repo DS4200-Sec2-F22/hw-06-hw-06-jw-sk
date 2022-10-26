@@ -7,7 +7,7 @@ const MARGINS = {left: 50, right: 50, top: 50, bottom: 50};
 const VIS_HEIGHT = FRAME_HEIGHT - MARGINS.left - MARGINS.right;
 const VIS_WIDTH = FRAME_WIDTH - MARGINS.top - MARGINS.bottom; 
 
-// setting the frame for the bar chart
+// ----------SETTING THE FRAME FOR ALL THREE VISUALIZATIONS----------------
 const BAR_FRAME = d3.select("#bar-chart")
 .append("svg")
 .attr("height", FRAME_HEIGHT)
@@ -20,21 +20,23 @@ const SCATTER_FRAME_1 = d3.select("#scatter-plot-1")
 .attr("width", FRAME_WIDTH)
 .attr("class", "frame");
 
-//sets preset bar data
-const BAR_DATA = [{Species: "setosa", Count:50}, {Species: "virginica", Count:50}, {Species: "versicolor", Count:50}];
-
 const SCATTER_FRAME_2 = d3.select("#scatter-plot-2")
 .append("svg")
 .attr("height", FRAME_HEIGHT)
 .attr("width", FRAME_WIDTH)
 .attr("class", "frame");
 
-// function to build bar plot 
+//sets preset bar data
+const BAR_DATA = [{Species: "setosa", Count:50}, {Species: "virginica", Count:50}, {Species: "versicolor", Count:50}];
+
+
+// ---------FUNCTION TO BUILD ALL PLOTS-------------
 function build_plots() {
 
   // reading in data 
   d3.csv("data/iris.csv").then((data) => {
 
+    // -----------------BAR PLOT-----------------
     //defines max y for bar plots
     const MAX_Y_BAR = d3.max(BAR_DATA, (d) => { return parseInt(d.Count); });
 
@@ -80,7 +82,8 @@ function build_plots() {
     .attr("y", MARGINS.top)
     .style("text-anchor", "middle")
     .text("Count of Each Species");
-
+    
+    // -----------------SCATTER PLOT 1----------------
     // find max values 
     const MAX_X_SCAT_1 = d3.max(data, (d) => { return parseInt(d.Petal_Length); });
     const MAX_Y_SCAT_1 = d3.max(data, (d) => { return parseInt(d.Sepal_Length); });
@@ -126,6 +129,8 @@ function build_plots() {
     .attr("y", MARGINS.top)
     .style("text-anchor", "middle")
     .text("Scatterplot of Petal Length vs. Sepal Length");
+
+    // -----------------SCATTER PLOT 2----------------
 
     // find max values 
     const MAX_X_SCAT_2 = d3.max(data, (d) => { return parseInt(d.Petal_Width); });
@@ -173,17 +178,20 @@ function build_plots() {
     .call(d3.axisLeft(Y_SCALE_SCAT_2).ticks(11)) 
     .attr("font-size", '20px');
 
-    const brush = d3.brush()                                   // Add the brush feature using the d3.brush function
+    // Add the brush feature using the d3.brush function
+    const brush = d3.brush()                                   
     .extent( [[MARGINS.left,MARGINS.top], 
-               [FRAME_WIDTH,(FRAME_HEIGHT - MARGINS.bottom)]])         // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-    .on("start brush end", updateChart);
+               [FRAME_WIDTH,(FRAME_HEIGHT - MARGINS.bottom)]])         // initialise the brush area: start at 0,0 and finishes at width,height
+    .on("start brush end", updateChart);                               // calls updateChart function on start brush end 
 
     SCATTER_FRAME_2.call(brush);
 
+    // initializing 
     let brushedData = [];
 
+    // function to update chart based on given selection 
     function updateChart({selection}) {
-
+      // resetting selection 
       let brushedData = [];
 
       data.map((d) => {if (isBrushed(selection, (X_SCALE_SCAT_2(d.Petal_Width) + MARGINS.left), (Y_SCALE_SCAT_2(d.Sepal_Width) + MARGINS.top))) {brushedData.push(d); }});
@@ -202,9 +210,6 @@ function build_plots() {
     };
   });
 };
-
-
-
 
 build_plots();
 
