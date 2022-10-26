@@ -49,6 +49,7 @@ body {
 }
 
 .setosa {
+  opacity: 30%;
   fill: seagreen;
   opacity: 30%;
 }
