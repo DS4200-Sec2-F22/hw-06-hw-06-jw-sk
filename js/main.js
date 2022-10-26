@@ -28,10 +28,8 @@ const SCATTER_FRAME_2 = d3.select("#scatter-plot-2")
 .attr("width", FRAME_WIDTH)
 .attr("class", "frame");
 
-let brushedData = [];
-
 // function to build bar plot 
-function build_bar() {
+function build_plots() {
   // reading in data 
   d3.csv("data/iris.csv").then((data) => {
 
@@ -49,7 +47,7 @@ function build_bar() {
     .range([VIS_HEIGHT, 0]); 
 
     // add bars
-    BAR_FRAME.selectAll(".bar")  
+    const bars = BAR_FRAME.selectAll(".bar")  
     .data(BAR_DATA)
     .enter()       
     .append("rect")  
@@ -57,7 +55,7 @@ function build_bar() {
     .attr("y", (d) => { return (MARGINS.top + Y_SCALE_BAR(d.Count)); })
     .attr("width", X_SCALE_BAR.bandwidth())
     .attr("height", (d) => { return VIS_HEIGHT - Y_SCALE_BAR(d.Count); })
-    .attr("class", (d) => { if (brushedData.includes(d)) {return "selected"; } else {return d.Species; }});
+    .attr("class", (d) => {return d.Species});
 
     // add X axis 
     BAR_FRAME.append("g") 
@@ -72,11 +70,6 @@ function build_bar() {
       "," + (MARGINS.top) + ")") 
     .call(d3.axisLeft(Y_SCALE_BAR).ticks(10)) 
     .attr("font-size", '20px');
-})};
-
-  function build_scat_1() {
-
-    d3.csv("data/iris.csv").then((data) => {
 
     // find max values 
     const MAX_X_SCAT_1 = d3.max(data, (d) => { return parseInt(d.Petal_Length); });
@@ -92,7 +85,7 @@ function build_bar() {
     .range([VIS_HEIGHT,0]);
 
     // use the X_SCALE and Y_SCALE to plot the points 
-    SCATTER_FRAME_1.selectAll("dot")  
+    const points_1 = SCATTER_FRAME_1.selectAll("dot")  
     .data(data)
     .enter()       
     .append("circle")  
@@ -101,7 +94,7 @@ function build_bar() {
     .attr("xchord", (d) => { return d.Petal_Length; })
     .attr("ychord", (d) => { return d.Sepal_Length; })
     .attr("r", 5)
-    .attr("class", (d) => { if (brushedData.includes(d)) {return "selected"; } else {return d.Species; }});
+    .attr("class", (d) => {return d.Species});
 
     // adding X axis to the visualization 
     SCATTER_FRAME_1.append("g") 
@@ -117,12 +110,6 @@ function build_bar() {
     .call(d3.axisLeft(Y_SCALE_SCAT_1).ticks(11)) 
     .attr("font-size", '20px'); 
 
-  })};
-
-    function build_scat_2() {
-
-    d3.csv("data/iris.csv").then((data) => {
-
     // find max values 
     const MAX_X_SCAT_2 = d3.max(data, (d) => { return parseInt(d.Petal_Width); });
     const MAX_Y_SCAT_2 = d3.max(data, (d) => { return parseInt(d.Sepal_Width); });
@@ -137,7 +124,7 @@ function build_bar() {
     .range([VIS_HEIGHT,0]); 
 
     // use the X_SCALE and Y_SCALE to plot the points 
-    SCATTER_FRAME_2.selectAll("dot")  
+    let points_2 = SCATTER_FRAME_2.selectAll("dot")  
     .data(data)
     .enter()       
     .append("circle")  
@@ -146,7 +133,7 @@ function build_bar() {
     .attr("xchord", (d) => { return d.Petal_Width; })
     .attr("ychord", (d) => { return d.Sepal_Width; })
     .attr("r", 5)
-    .attr("class", (d) => { if (brushedData.includes(d)) {return "selected"; } else {return d.Species; }});
+    .attr("class", (d) => {return d.Species});
 
     // adding X axis to the visualization 
     SCATTER_FRAME_2.append("g") 
@@ -169,16 +156,17 @@ function build_bar() {
 
     SCATTER_FRAME_2.call(brush);
 
+    let brushedData = [];
+
     function updateChart({selection}) {
 
       let brushedData = [];
 
       data.map((d) => {if (isBrushed(selection, (X_SCALE_SCAT_2(d.Petal_Width) + MARGINS.left), (Y_SCALE_SCAT_2(d.Sepal_Width) + MARGINS.top))) {brushedData.push(d);}})
       
-      //d3.selectAll("dot").classed("selected", (d) => { return brushedData.includes(d); });
-      //points_2.classed("selected", (d) => { return brushedData.includes(d); });
-      //points_1.classed("selected", (d) => { return brushedData.includes(d); });
-      //bars.classed("selected", (d) => { return brushedData.map(d => d.Species).includes(d.Species); });
+      points_2.classed("selected", (d) => { return brushedData.includes(d); });
+      points_1.classed("selected", (d) => { return brushedData.includes(d); });
+      bars.classed("selected", (d) => { return brushedData.map(d => d.Species).includes(d.Species); });
     };
 
     function isBrushed(brush_coords, cx, cy) {
@@ -188,15 +176,13 @@ function build_bar() {
       const y1 = brush_coords[1][1];
       return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;    // This return TRUE or FALSE depending on if the points is in the selected area
     };
-
-  })};
-
-
+  });
+};
 
 
-build_bar();
-build_scat_1();
-build_scat_2();
+
+
+build_plots();
 
 
 
