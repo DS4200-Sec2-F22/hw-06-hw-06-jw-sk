@@ -58,7 +58,7 @@ function build_plots() {
     .attr("y", (d) => { return (MARGINS.top + Y_SCALE_BAR(d.Count)); })
     .attr("width", X_SCALE_BAR.bandwidth())
     .attr("height", (d) => { return VIS_HEIGHT - Y_SCALE_BAR(d.Count); })
-    .attr("class", (d) => {return d.Species});
+    .attr("class", (d) => {return d.Species; });
 
     // add X axis 
     BAR_FRAME.append("g") 
@@ -73,6 +73,13 @@ function build_plots() {
       "," + (MARGINS.top) + ")") 
     .call(d3.axisLeft(Y_SCALE_BAR).ticks(10)) 
     .attr("font-size", '20px');
+
+    //Create title 
+    BAR_FRAME.append("text")
+    .attr("x", FRAME_WIDTH / 2)
+    .attr("y", MARGINS.top)
+    .style("text-anchor", "middle")
+    .text("Count of Each Species");
 
     // find max values 
     const MAX_X_SCAT_1 = d3.max(data, (d) => { return parseInt(d.Petal_Length); });
@@ -97,7 +104,7 @@ function build_plots() {
     .attr("xchord", (d) => { return d.Petal_Length; })
     .attr("ychord", (d) => { return d.Sepal_Length; })
     .attr("r", 5)
-    .attr("class", (d) => {return d.Species});
+    .attr("class", (d) => {return d.Species; });
 
     // adding X axis to the visualization 
     SCATTER_FRAME_1.append("g") 
@@ -112,6 +119,13 @@ function build_plots() {
       "," + (MARGINS.top) + ")") 
     .call(d3.axisLeft(Y_SCALE_SCAT_1).ticks(11)) 
     .attr("font-size", '20px'); 
+
+    //Create title 
+    SCATTER_FRAME_1.append("text")
+    .attr("x", FRAME_WIDTH / 2)
+    .attr("y", MARGINS.top)
+    .style("text-anchor", "middle")
+    .text("Scatterplot of Petal Length vs. Sepal Length");
 
     // find max values 
     const MAX_X_SCAT_2 = d3.max(data, (d) => { return parseInt(d.Petal_Width); });
@@ -136,7 +150,7 @@ function build_plots() {
     .attr("xchord", (d) => { return d.Petal_Width; })
     .attr("ychord", (d) => { return d.Sepal_Width; })
     .attr("r", 5)
-    .attr("class", (d) => {return d.Species});
+    .attr("class", (d) => {return d.Species; });
 
     // adding X axis to the visualization 
     SCATTER_FRAME_2.append("g") 
@@ -145,12 +159,19 @@ function build_plots() {
     .call(d3.axisBottom(X_SCALE_SCAT_2).ticks(11)) 
     .attr("font-size", '20px'); 
 
+    //Create title 
+    SCATTER_FRAME_2.append("text")
+    .attr("x", FRAME_WIDTH / 2)
+    .attr("y", MARGINS.top)
+    .style("text-anchor", "middle")
+    .text("Scatterplot of Petal Width vs. Sepal Width");
+
     // adding Y axis to the visualization 
     SCATTER_FRAME_2.append("g") 
     .attr("transform", "translate(" + MARGINS.left + 
       "," + (MARGINS.top) + ")") 
     .call(d3.axisLeft(Y_SCALE_SCAT_2).ticks(11)) 
-    .attr("font-size", '20px'); 
+    .attr("font-size", '20px');
 
     const brush = d3.brush()                                   // Add the brush feature using the d3.brush function
     .extent( [[MARGINS.left,MARGINS.top], 
