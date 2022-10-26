@@ -20,6 +20,7 @@ const SCATTER_FRAME_1 = d3.select("#scatter-plot-1")
 .attr("width", FRAME_WIDTH)
 .attr("class", "frame");
 
+//sets preset bar data
 const BAR_DATA = [{Species: "setosa", Count:50}, {Species: "virginica", Count:50}, {Species: "versicolor", Count:50}];
 
 const SCATTER_FRAME_2 = d3.select("#scatter-plot-2")
@@ -30,9 +31,11 @@ const SCATTER_FRAME_2 = d3.select("#scatter-plot-2")
 
 // function to build bar plot 
 function build_plots() {
+
   // reading in data 
   d3.csv("data/iris.csv").then((data) => {
 
+    //defines max y for bar plots
     const MAX_Y_BAR = d3.max(BAR_DATA, (d) => { return parseInt(d.Count); });
 
     // X scale 
@@ -162,7 +165,7 @@ function build_plots() {
 
       let brushedData = [];
 
-      data.map((d) => {if (isBrushed(selection, (X_SCALE_SCAT_2(d.Petal_Width) + MARGINS.left), (Y_SCALE_SCAT_2(d.Sepal_Width) + MARGINS.top))) {brushedData.push(d);}})
+      data.map((d) => {if (isBrushed(selection, (X_SCALE_SCAT_2(d.Petal_Width) + MARGINS.left), (Y_SCALE_SCAT_2(d.Sepal_Width) + MARGINS.top))) {brushedData.push(d); }});
       
       points_2.classed("selected", (d) => { return brushedData.includes(d); });
       points_1.classed("selected", (d) => { return brushedData.includes(d); });
