@@ -75,13 +75,6 @@ function build_plots() {
       "," + (MARGINS.top) + ")") 
     .call(d3.axisLeft(Y_SCALE_BAR).ticks(10)) 
     .attr("font-size", '20px');
-
-    //Create title 
-    BAR_FRAME.append("text")
-    .attr("x", FRAME_WIDTH / 2)
-    .attr("y", MARGINS.top)
-    .style("text-anchor", "middle")
-    .text("Count of Each Species");
     
     // -----------------SCATTER PLOT 1----------------
     // find max values 
@@ -123,13 +116,6 @@ function build_plots() {
     .call(d3.axisLeft(Y_SCALE_SCAT_1).ticks(11)) 
     .attr("font-size", '20px'); 
 
-    //Create title 
-    SCATTER_FRAME_1.append("text")
-    .attr("x", FRAME_WIDTH / 2)
-    .attr("y", MARGINS.top)
-    .style("text-anchor", "middle")
-    .text("Scatterplot of Petal Length vs. Sepal Length");
-
     // -----------------SCATTER PLOT 2----------------
 
     // find max values 
@@ -163,13 +149,6 @@ function build_plots() {
       "," + (VIS_HEIGHT + MARGINS.top) + ")") 
     .call(d3.axisBottom(X_SCALE_SCAT_2).ticks(11)) 
     .attr("font-size", '20px'); 
-
-    //Create title 
-    SCATTER_FRAME_2.append("text")
-    .attr("x", FRAME_WIDTH / 2)
-    .attr("y", MARGINS.top)
-    .style("text-anchor", "middle")
-    .text("Scatterplot of Petal Width vs. Sepal Width");
 
     // adding Y axis to the visualization 
     SCATTER_FRAME_2.append("g") 
